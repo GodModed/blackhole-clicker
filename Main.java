@@ -1,7 +1,11 @@
+import javax.swing.SwingUtilities;
+
 import game.Game;
 
 public class Main {
     public static void main(String[] args) {
-        new Game();
+        SwingUtilities.invokeLater(() -> {
+            new Game();  
+        });
     }
 }
