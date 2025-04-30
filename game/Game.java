@@ -1,15 +1,25 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.event.MouseInputListener;
 
 import game.entities.BlackholeEntity;
 import game.entities.CashEntity;
@@ -28,7 +38,7 @@ public class Game extends JFrame implements Runnable {
         try {
             BLACKHOLE_IMAGE = ImageIO.read(new File("resources/blackhole.png"));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to load blackhole image. Is it missing?");
         }
     }
 
@@ -36,6 +46,7 @@ public class Game extends JFrame implements Runnable {
     private long lastFrameTime;
     private double fpsAccumulator;
     private ArrayList<Entity> entities = new ArrayList<>();
+    private final Font font;
 
     public Game() {
         super(NAME);
@@ -45,6 +56,13 @@ public class Game extends JFrame implements Runnable {
         setResizable(false);
         setBackground(BACKGROUND_COLOR);
         setVisible(true);
+
+        File fontFile = new File("resources/Monocraft.ttf");
+        try {
+            this.font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(24f);
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to load font file. Is it missing?");
+        }
 
         running = true;
 
@@ -68,6 +86,7 @@ public class Game extends JFrame implements Runnable {
 
         g.setColor(BACKGROUND_COLOR);
         g.clearRect(0, 0, WIDTH, HEIGHT);
+        g.setFont(font);
 
         for (Entity entity : entities) {
             if (!entity.isAlive()) continue;
@@ -87,13 +106,13 @@ public class Game extends JFrame implements Runnable {
             long currentTime = System.nanoTime();
             long diffTime = currentTime - lastFrameTime;
             double deltaTime = diffTime / 1_000_000_000.0; // convert nanoseconds to seconds. Math.pow(10, 9);
+            lastFrameTime = currentTime;
 
-            for (IUpdatable updatable : entities) {
-                updatable.update(deltaTime);
+            for (int i = 0; i < entities.size(); i++) {
+                entities.get(i).update(deltaTime);
             }
 
             render();
-            lastFrameTime = currentTime;
 
             // clean up dead entities
             removeDeadEntities();
