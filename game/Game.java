@@ -2,27 +2,18 @@ package game;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.event.MouseInputListener;
 
 import game.entities.BlackholeEntity;
-import game.entities.CashEntity;
+import game.entities.CurrentCashEntity;
 import game.entities.DestroyableEntity;
 
 public class Game extends JFrame implements Runnable {
@@ -44,8 +35,10 @@ public class Game extends JFrame implements Runnable {
 
     private boolean running;
     private long lastFrameTime;
-    private double fpsAccumulator;
+    // private double fpsAccumulator;
+    private double cash;
     private ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<Entity> guiEntities = new ArrayList<>();
     private final Font font;
 
     public Game() {
@@ -66,9 +59,13 @@ public class Game extends JFrame implements Runnable {
 
         running = true;
 
+        guiEntities.add(new CurrentCashEntity());
         entities.add(new BlackholeEntity());
         // entities.add(new CashEntity(WIDTH / 2, HEIGHT / 2, Math.random() * 10000, 3));
-        entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
+        // entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
+        for (int i = 0; i < 100; i++) {
+            entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, BLACKHOLE_IMAGE, Math.random() * 1000));
+        }
 
         createBufferStrategy(2);
         new Thread(this).start();
@@ -93,6 +90,11 @@ public class Game extends JFrame implements Runnable {
             g.setColor(Color.WHITE);
             entity.render(g);
         }
+
+        for (Entity entity : guiEntities) {
+            g.setColor(Color.WHITE);
+            entity.render(g);
+        }
         
         g.dispose();
         bs.show();
@@ -112,16 +114,20 @@ public class Game extends JFrame implements Runnable {
                 entities.get(i).update(deltaTime);
             }
 
+            for (Entity entity : guiEntities) {
+                entity.update(deltaTime);
+            }
+
             render();
 
             // clean up dead entities
             removeDeadEntities();
 
-            fpsAccumulator += deltaTime;
-            if (fpsAccumulator >= 5) {
-                fpsAccumulator = 0;
-                System.out.println("FPS: " + 1 / deltaTime);
-            }
+            // fpsAccumulator += deltaTime;
+            // if (fpsAccumulator >= 5) {
+            //     fpsAccumulator = 0;
+            //     System.out.println("FPS: " + 1 / deltaTime);
+            // }
         }
     }
 
@@ -134,5 +140,13 @@ public class Game extends JFrame implements Runnable {
 
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    public double getCash() {
+        return cash;
+    }
+
+    public void addCash(double cash) {
+        this.cash += cash;
     }
 }

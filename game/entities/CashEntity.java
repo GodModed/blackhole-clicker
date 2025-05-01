@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.FontMetrics;
 
 import game.Entity;
-
 public class CashEntity extends Entity {
 
     private final double cash;
@@ -24,7 +23,7 @@ public class CashEntity extends Entity {
     public void render(Graphics2D g) {
 
         FontMetrics metric = g.getFontMetrics();
-        String cashString = "+" + cash;
+        String cashString = "+$" + (long) cash;
 
         int width = metric.stringWidth(cashString);
 
@@ -40,6 +39,6 @@ public class CashEntity extends Entity {
         currentFade -= dt;
         if (currentFade <= 0) remove();
         
-        addDeltaX((Math.random() - 0.5) * 15);
+        addDeltaX((Math.random() - 0.5) * 1500 * dt);
     }
 }

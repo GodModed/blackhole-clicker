@@ -9,8 +9,6 @@ public class DestroyableEntity extends Entity {
 
     private final double cash;
     private final BufferedImage image;
-    private static int WIDTH = 50;
-    private static int HEIGHT = 50;
 
     public DestroyableEntity(double x, double y, BufferedImage image, double cash) {
         super(x, y);
@@ -28,8 +26,12 @@ public class DestroyableEntity extends Entity {
     public void update(double dt) {
         super.update(dt);
 
-        if (Math.pow(getX() - Game.WIDTH / 2, 2) + Math.pow(getY() - Game.HEIGHT / 2, 2) < Math.pow(128, 2)) {
+        double distX = Math.abs(getX() - Game.WIDTH / 2);
+        double distY = Math.abs(getY() - Game.HEIGHT / 2);
+
+        if (Math.pow(distX, 2) + Math.pow(distY, 2) < Math.pow(128, 2)) {
             remove();
+            Game.INSTANCE.addCash(cash);
             Game.INSTANCE.getEntities().add(
                 new CashEntity(getX(), getY(), cash, 3)
             );
@@ -37,8 +39,6 @@ public class DestroyableEntity extends Entity {
         }
 
         
-        double distX = Math.abs(getX() - Game.WIDTH / 2);
-        double distY = Math.abs(getY() - Game.HEIGHT / 2);
 
         double angle = Math.atan(distY / distX);
 
