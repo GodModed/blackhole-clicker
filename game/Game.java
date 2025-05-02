@@ -53,7 +53,7 @@ public class Game extends JFrame implements Runnable {
         entities.add(new BlackholeEntity());
         // entities.add(new CashEntity(WIDTH / 2, HEIGHT / 2, Math.random() * 10000, 3));
         // entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, ResourceLoader.WOOD_CHAIR_IMAGE, Math.random() * 1000));
         }
 

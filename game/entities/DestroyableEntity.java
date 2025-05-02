@@ -3,6 +3,7 @@ package game.entities;
 import game.Game;
 import game.Entity;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class DestroyableEntity extends Entity {
@@ -18,12 +19,17 @@ public class DestroyableEntity extends Entity {
     
     @Override
     public void render(Graphics2D g) {
+        AffineTransform oldTransform = g.getTransform();
+        g.rotate(getRotation(), getX(), getY());
         g.drawImage(image, (int) getX() - image.getWidth() / 2, (int) getY() - image.getHeight() / 2, Game.INSTANCE);
+        g.setTransform(oldTransform);
     }
 
     @Override
     public void update(double dt) {
         super.update(dt);
+
+        addRotation(dt / 2);
 
         double distX = Math.abs(getX() - Game.WIDTH / 2);
         double distY = Math.abs(getY() - Game.HEIGHT / 2);
@@ -35,7 +41,7 @@ public class DestroyableEntity extends Entity {
                 new CashEntity(getX(), getY(), cash, 3)
             );
             Game.INSTANCE.getEntities().add(
-                new DestroyedFramentEntity(getX(), getY(), image, 1)
+                new DestroyedFramentEntity(getX(), getY(), image, 1, getRotation())
             );
 
             return;
