@@ -14,7 +14,6 @@ public class DestroyableEntity extends Entity {
         super(x, y);
         this.image = image;
         this.cash = cash;
-        setDeltaX(5);
     }
     
     @Override
@@ -35,6 +34,10 @@ public class DestroyableEntity extends Entity {
             Game.INSTANCE.getEntities().add(
                 new CashEntity(getX(), getY(), cash, 3)
             );
+            Game.INSTANCE.getEntities().add(
+                new DestroyedFramentEntity(getX(), getY(), image, 1)
+            );
+
             return;
         }
 

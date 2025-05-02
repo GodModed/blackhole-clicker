@@ -22,16 +22,7 @@ public class Game extends JFrame implements Runnable {
     public final static int WIDTH = 1200;
     public final static int HEIGHT = 900;
     public final static String NAME = "Blackhole Clicker";
-    public final static BufferedImage BLACKHOLE_IMAGE;
     public final static Color BACKGROUND_COLOR = Color.BLACK;
-
-    static {
-        try {
-            BLACKHOLE_IMAGE = ImageIO.read(new File("resources/blackhole.png"));
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to load blackhole image. Is it missing?");
-        }
-    }
 
     private boolean running;
     private long lastFrameTime;
@@ -39,23 +30,22 @@ public class Game extends JFrame implements Runnable {
     private double cash;
     private ArrayList<Entity> entities = new ArrayList<>();
     private ArrayList<Entity> guiEntities = new ArrayList<>();
-    private final Font font;
 
     public Game() {
         super(NAME);
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(BLACKHOLE_IMAGE.getScaledInstance(256, 256, Image.SCALE_SMOOTH));
         setResizable(false);
         setBackground(BACKGROUND_COLOR);
         setVisible(true);
 
-        File fontFile = new File("resources/Monocraft.ttf");
         try {
-            this.font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(24f);
+            ResourceLoader.load();
         } catch (Exception e) {
-            throw new RuntimeException("Unable to load font file. Is it missing?");
+            throw new RuntimeException("Could not load resource files", e);
         }
+
+        setIconImage(ResourceLoader.BLACKHOLE_IMAGE.getScaledInstance(256, 256, Image.SCALE_SMOOTH));
 
         running = true;
 
@@ -63,8 +53,8 @@ public class Game extends JFrame implements Runnable {
         entities.add(new BlackholeEntity());
         // entities.add(new CashEntity(WIDTH / 2, HEIGHT / 2, Math.random() * 10000, 3));
         // entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
-        for (int i = 0; i < 100; i++) {
-            entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, BLACKHOLE_IMAGE, Math.random() * 1000));
+        for (int i = 0; i < 10; i++) {
+            entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, ResourceLoader.WOOD_CHAIR_IMAGE, Math.random() * 1000));
         }
 
         createBufferStrategy(2);
@@ -83,7 +73,7 @@ public class Game extends JFrame implements Runnable {
 
         g.setColor(BACKGROUND_COLOR);
         g.clearRect(0, 0, WIDTH, HEIGHT);
-        g.setFont(font);
+        g.setFont(ResourceLoader.MONOCRAFT_FONT);
 
         for (Entity entity : entities) {
             if (!entity.isAlive()) continue;

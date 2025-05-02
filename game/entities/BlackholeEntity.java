@@ -5,11 +5,12 @@ import java.awt.image.BufferedImage;
 
 import game.Entity;
 import game.Game;
+import game.ResourceLoader;
 
 public class BlackholeEntity extends Entity {
 
     public static BlackholeEntity INSTANCE;
-    private final static BufferedImage IMAGE = Game.BLACKHOLE_IMAGE;
+    private final static BufferedImage IMAGE = ResourceLoader.BLACKHOLE_IMAGE;
 
     public BlackholeEntity() {
         super(Game.WIDTH / 2 - IMAGE.getWidth() / 2, Game.HEIGHT / 2 - IMAGE.getHeight() / 2);
