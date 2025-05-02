@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import game.entities.BlackholeEntity;
 import game.entities.CurrentCashEntity;
 import game.entities.DestroyableEntity;
+import game.listeners.ClickHandler;
 
 public class Game extends JFrame implements Runnable {
 
@@ -40,12 +41,12 @@ public class Game extends JFrame implements Runnable {
         setVisible(true);
 
         try {
-            ResourceLoader.load();
+            ResourceManager.load();
         } catch (Exception e) {
             throw new RuntimeException("Could not load resource files", e);
         }
 
-        setIconImage(ResourceLoader.BLACKHOLE_IMAGE.getScaledInstance(256, 256, Image.SCALE_SMOOTH));
+        setIconImage(ResourceManager.BLACKHOLE_IMAGE.getScaledInstance(256, 256, Image.SCALE_SMOOTH));
 
         running = true;
 
@@ -53,9 +54,11 @@ public class Game extends JFrame implements Runnable {
         entities.add(new BlackholeEntity());
         // entities.add(new CashEntity(WIDTH / 2, HEIGHT / 2, Math.random() * 10000, 3));
         // entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
-        for (int i = 0; i < 100; i++) {
-            entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, ResourceLoader.WOOD_CHAIR_IMAGE, Math.random() * 1000));
+        for (int i = 0; i < 10; i++) {
+            entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, ResourceManager.WOOD_CHAIR_IMAGE, Math.random() * 1000));
         }
+
+        addMouseListener(new ClickHandler());
 
         createBufferStrategy(2);
         new Thread(this).start();
@@ -73,9 +76,10 @@ public class Game extends JFrame implements Runnable {
 
         g.setColor(BACKGROUND_COLOR);
         g.clearRect(0, 0, WIDTH, HEIGHT);
-        g.setFont(ResourceLoader.MONOCRAFT_FONT);
+        g.setFont(ResourceManager.MONOCRAFT_FONT);
 
-        for (Entity entity : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
             if (!entity.isAlive()) continue;
             g.setColor(Color.WHITE);
             entity.render(g);
@@ -124,7 +128,7 @@ public class Game extends JFrame implements Runnable {
     public void removeDeadEntities() {
         for (int i = entities.size() - 1; i >= 0; i--) {
             Entity entitiy = entities.get(i);
-            if (!entitiy.isAlive()) entities.remove(entitiy);
+            if (!entitiy.isAlive()) entities.remove(i);
         }
     }
 
