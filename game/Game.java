@@ -34,6 +34,12 @@ public class Game extends JFrame implements Runnable {
 
     public Game() {
         super(NAME);
+
+        if (INSTANCE != null) {
+            throw new RuntimeException("Game already exists.");
+        }
+        INSTANCE = this;
+        
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -62,12 +68,6 @@ public class Game extends JFrame implements Runnable {
 
         createBufferStrategy(2);
         new Thread(this).start();
-
-        if (INSTANCE != null) {
-            throw new RuntimeException("Game already exists.");
-        }
-
-        INSTANCE = this;
     }
 
     public void render() {
@@ -75,7 +75,7 @@ public class Game extends JFrame implements Runnable {
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 
         g.setColor(BACKGROUND_COLOR);
-        g.clearRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setFont(ResourceManager.MONOCRAFT_FONT);
 
         for (int i = 0; i < entities.size(); i++) {
@@ -126,10 +126,14 @@ public class Game extends JFrame implements Runnable {
     }
 
     public void removeDeadEntities() {
-        for (int i = entities.size() - 1; i >= 0; i--) {
-            Entity entitiy = entities.get(i);
-            if (!entitiy.isAlive()) entities.remove(i);
+
+        ArrayList<Entity> noDeadEntities = new ArrayList<>();
+
+        for (Entity entity : entities) {
+            if (entity.isAlive()) noDeadEntities.add(entity);
         }
+
+        entities = noDeadEntities;
     }
 
     public ArrayList<Entity> getEntities() {
