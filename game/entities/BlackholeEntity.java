@@ -14,7 +14,7 @@ public class BlackholeEntity extends Entity {
 
     public static BlackholeEntity INSTANCE;
     private final static BufferedImage IMAGE = ResourceManager.BLACKHOLE_IMAGE;
-    private final static double maxScale = 1.1;
+    private final static double MAX_SCALE = 1.1;
 
     private double holeScale = 1;
     private AnimationState state = AnimationState.NONE;
@@ -44,17 +44,17 @@ public class BlackholeEntity extends Entity {
         // addRotation(dt / 2);
         switch (state) {
             case INCREASING:
-                holeScale += dt / 2;
+                holeScale += dt / holeScale;
                 break;
             case DECREASING:
-                holeScale -= dt / 2;
+                holeScale -=  dt / holeScale;
                 break;
             case NONE:
                 break;
         }
 
-        if (state == AnimationState.INCREASING && holeScale >= maxScale) {
-            holeScale = maxScale;
+        if (state == AnimationState.INCREASING && holeScale >= MAX_SCALE) {
+            holeScale = MAX_SCALE;
             state = AnimationState.DECREASING;
         } else if (state == AnimationState.DECREASING && holeScale <= 1) {
             holeScale = 1;
