@@ -3,6 +3,7 @@ package game.entities;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 
 import game.Entity;
 import game.Game;
@@ -13,6 +14,11 @@ public class BlackholeEntity extends Entity {
 
     public static BlackholeEntity INSTANCE;
     private final static BufferedImage IMAGE = ResourceManager.BLACKHOLE_IMAGE;
+    private final static double maxScale = 1.1;
+
+    private double holeScale = 1;
+    private AnimationState state = AnimationState.NONE;
+    
 
     public BlackholeEntity() {
         super(Game.WIDTH / 2, Game.HEIGHT / 2);
@@ -25,13 +31,35 @@ public class BlackholeEntity extends Entity {
         // AffineTransform oldTransform = g.getTransform();
         // g.rotate(getRotation(), Game.WIDTH / 2, Game.HEIGHT / 2);
         // TODO: make click animation
-        g.drawImage(IMAGE, (int) getX() - IMAGE.getWidth() / 2, (int) getY() - IMAGE.getHeight() / 2, Game.INSTANCE);
-        // g.setTransform(oldTransform);
+
+        AffineTransform oldTransform = g.getTransform();
+        g.scale(holeScale, holeScale);
+        g.drawImage(IMAGE, (int) ((getX() - IMAGE.getWidth() * holeScale / 2) / holeScale), 
+                           (int) ((getY() - IMAGE.getHeight() * holeScale / 2) / holeScale), Game.INSTANCE);
+        g.setTransform(oldTransform);        g.setTransform(oldTransform);
     }
 
     @Override
     public void update(double dt) {
         // addRotation(dt / 2);
+        switch (state) {
+            case INCREASING:
+                holeScale += dt / 2;
+                break;
+            case DECREASING:
+                holeScale -= dt / 2;
+                break;
+            case NONE:
+                break;
+        }
+
+        if (state == AnimationState.INCREASING && holeScale >= maxScale) {
+            holeScale = maxScale;
+            state = AnimationState.DECREASING;
+        } else if (state == AnimationState.DECREASING && holeScale <= 1) {
+            holeScale = 1;
+            state = AnimationState.NONE;
+        }
     }
 
     public void click(MouseEvent e) {
@@ -46,6 +74,14 @@ public class BlackholeEntity extends Entity {
             new CashEntity((double) e.getX(), (double) e.getY(), cash, 3)
         );
         Game.INSTANCE.addCash(UpgradeManager.CLICK_MULTIPLIER);
+
+        state = AnimationState.INCREASING;
+    }
+
+    private enum AnimationState {
+        NONE,
+        INCREASING,
+        DECREASING;
     }
     
 }

@@ -1,15 +1,11 @@
 package game;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import game.entities.BlackholeEntity;
@@ -129,7 +125,8 @@ public class Game extends JFrame implements Runnable {
 
         ArrayList<Entity> noDeadEntities = new ArrayList<>();
 
-        for (Entity entity : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
             if (entity.isAlive()) noDeadEntities.add(entity);
         }
 
