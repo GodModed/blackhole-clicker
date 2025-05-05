@@ -12,6 +12,7 @@ import game.entities.BlackholeEntity;
 import game.entities.CurrentCashEntity;
 import game.entities.DestroyableEntity;
 import game.listeners.ClickHandler;
+import game.listeners.ExitHandler;
 
 public class Game extends JFrame implements Runnable {
 
@@ -22,6 +23,7 @@ public class Game extends JFrame implements Runnable {
     public final static Color BACKGROUND_COLOR = Color.BLACK;
 
     private boolean running;
+    private Thread gameThread;
     private long lastFrameTime;
     // private double fpsAccumulator;
     private double cash;
@@ -37,7 +39,6 @@ public class Game extends JFrame implements Runnable {
         INSTANCE = this;
         
         setSize(WIDTH, HEIGHT);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setBackground(BACKGROUND_COLOR);
         setVisible(true);
@@ -61,9 +62,11 @@ public class Game extends JFrame implements Runnable {
         }
 
         addMouseListener(new ClickHandler());
+        addWindowListener(new ExitHandler());
 
         createBufferStrategy(2);
-        new Thread(this).start();
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
     public void render() {
@@ -121,7 +124,18 @@ public class Game extends JFrame implements Runnable {
         }
     }
 
-    public void removeDeadEntities() {
+    public void stop() {
+        if (!running) return;
+        try {
+            running = false;
+            gameThread.join();
+            System.exit(0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Unable to stop the game thread", e);
+        }
+    }
+
+    private void removeDeadEntities() {
 
         ArrayList<Entity> noDeadEntities = new ArrayList<>();
 

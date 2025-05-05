@@ -30,11 +30,10 @@ public class BlackholeEntity extends Entity {
     public void render(Graphics2D g) {
         // AffineTransform oldTransform = g.getTransform();
         // g.rotate(getRotation(), Game.WIDTH / 2, Game.HEIGHT / 2);
-        // TODO: make click animation
 
         AffineTransform oldTransform = g.getTransform();
         g.scale(holeScale, holeScale);
-        g.drawImage(IMAGE, (int) ((getX() - IMAGE.getWidth() * holeScale / 2) / holeScale), 
+        g.drawImage(IMAGE, (int) ((getX() - IMAGE.getWidth() * holeScale / 2) / holeScale),
                            (int) ((getY() - IMAGE.getHeight() * holeScale / 2) / holeScale), Game.INSTANCE);
         g.setTransform(oldTransform);        g.setTransform(oldTransform);
     }
@@ -50,7 +49,7 @@ public class BlackholeEntity extends Entity {
                 holeScale -=  dt / holeScale;
                 break;
             case NONE:
-                break;
+                return;
         }
 
         if (state == AnimationState.INCREASING && holeScale >= MAX_SCALE) {
