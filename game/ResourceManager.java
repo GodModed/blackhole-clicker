@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 public class ResourceManager {
     public static BufferedImage BLACKHOLE_IMAGE;
+    public static BufferedImage SHOP_IMAGE;
     public static BufferedImage WOOD_CHAIR_IMAGE;
     public static BufferedImage STONE_CHAIR_IMAGE;
     public static BufferedImage IRON_CHAIR_IMAGE;
@@ -17,6 +18,8 @@ public class ResourceManager {
 
     public static void load() throws Exception {
         BLACKHOLE_IMAGE = ImageIO.read(new File("resources/blackhole.png"));
+
+        SHOP_IMAGE = ImageIO.read(new File("resources/shop.png"));
 
         WOOD_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/wood_chair.png"));
         STONE_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/stone_chair.png"));

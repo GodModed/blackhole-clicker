@@ -2,7 +2,7 @@ package game;
 
 public class UpgradeManager {
 
-    public static double CLICK_MULTIPLIER = 1.0;
+    public static double CLICK_MULTIPLIER = 1;
     public static ChairLevel CHAIR_LEVEL = ChairLevel.WOOD;
 
     public enum ChairLevel {

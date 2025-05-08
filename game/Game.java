@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import game.entities.BlackholeEntity;
 import game.entities.CurrentCashEntity;
 import game.entities.DestroyableEntity;
+import game.entities.OpenShopEntity;
 import game.listeners.ClickHandler;
 import game.listeners.ExitHandler;
 
@@ -54,10 +55,11 @@ public class Game extends JFrame implements Runnable {
         running = true;
 
         guiEntities.add(new CurrentCashEntity());
+        // guiEntities.add(new OpenShopEntity());
         entities.add(new BlackholeEntity());
         // entities.add(new CashEntity(WIDTH / 2, HEIGHT / 2, Math.random() * 10000, 3));
         // entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, ResourceManager.WOOD_CHAIR_IMAGE, Math.random() * 1000));
         }
 
