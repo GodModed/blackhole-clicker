@@ -23,8 +23,9 @@ public class Game extends JFrame implements Runnable {
     public final static String NAME = "Blackhole Clicker";
     public final static Color BACKGROUND_COLOR = Color.BLACK;
 
-    private boolean running;
+    public volatile boolean running;
     private Thread gameThread;
+    private Thread generatorThread;
     private long lastFrameTime;
     // private double fpsAccumulator;
     private double cash;
@@ -44,6 +45,8 @@ public class Game extends JFrame implements Runnable {
         setBackground(BACKGROUND_COLOR);
         setVisible(true);
 
+        UpgradeManager.load();
+
         try {
             ResourceManager.load();
         } catch (Exception e) {
@@ -57,11 +60,6 @@ public class Game extends JFrame implements Runnable {
         guiEntities.add(new CurrentCashEntity());
         // guiEntities.add(new OpenShopEntity());
         entities.add(new BlackholeEntity());
-        // entities.add(new CashEntity(WIDTH / 2, HEIGHT / 2, Math.random() * 10000, 3));
-        // entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
-        for (int i = 0; i < 1; i++) {
-            entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, ResourceManager.WOOD_CHAIR_IMAGE, Math.random() * 1000));
-        }
 
         addMouseListener(new ClickHandler());
         addWindowListener(new ExitHandler());
@@ -69,6 +67,8 @@ public class Game extends JFrame implements Runnable {
         createBufferStrategy(2);
         gameThread = new Thread(this);
         gameThread.start();
+        generatorThread = new Thread(new Generator());
+        generatorThread.start();
     }
 
     public void render() {
@@ -125,9 +125,7 @@ public class Game extends JFrame implements Runnable {
             // }
             try {
                 Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException e) {}
         }
     }
 
@@ -136,6 +134,8 @@ public class Game extends JFrame implements Runnable {
         try {
             running = false;
             gameThread.join();
+            generatorThread.interrupt();
+            generatorThread.join();
             System.exit(0);
         } catch (InterruptedException e) {
             throw new RuntimeException("Unable to stop the game thread", e);
