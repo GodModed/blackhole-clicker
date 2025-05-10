@@ -1,23 +1,37 @@
 package game;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import game.upgrades.ChairUpgrade;
+
 public class UpgradeManager {
 
-    public static double CLICK_MULTIPLIER = 1;
-    public static ChairLevel CHAIR_LEVEL = ChairLevel.WOOD;
+    public static UpgradeManager INSTANCE;
 
-    public enum ChairLevel {
-        NONE(0),
-        WOOD(15),
-        STONE(20),
-        IRON(25),
-        DIAMOND(35),
-        RUBY(50);
+    private Map<Class<? extends Upgrade>, Upgrade> upgradeMap = new HashMap<>();
 
-        public double cash;
+    public UpgradeManager() {
+        if (INSTANCE != null) throw new RuntimeException("UpgradeManager already exists");
+        INSTANCE = this;
+        register(
+            new ChairUpgrade()
+        );
+    }
 
-        private ChairLevel(double cash) {
-            this.cash = cash;
+    private <T extends Upgrade> void register(T upgrade) {
+        upgradeMap.put(upgrade.getClass(), upgrade);
+    }
+
+    private <T extends Upgrade> void register(T... upgrades) {
+        for (T upgrade : upgrades) {
+            register(upgrade);
         }
     }
+
+    public Upgrade getUpgrade(Class<? extends Upgrade> clazz) {
+        return upgradeMap.get(clazz);
+    }
+
 
 }
