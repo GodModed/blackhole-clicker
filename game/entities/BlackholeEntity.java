@@ -9,6 +9,7 @@ import game.Entity;
 import game.Game;
 import game.ResourceManager;
 import game.UpgradeManager;
+import game.upgrades.ClickUpgrade;
 
 public class BlackholeEntity extends Entity {
 
@@ -40,6 +41,9 @@ public class BlackholeEntity extends Entity {
 
     @Override
     public void update(double dt) {
+
+        setX(Game.WIDTH / 2);
+        setY(Game.HEIGHT / 2);
         // addRotation(dt / 2);
         switch (state) {
             case INCREASING:
@@ -68,11 +72,11 @@ public class BlackholeEntity extends Entity {
 
         if (Math.pow(distX, 2) + Math.pow(distY, 2) >= Math.pow(128, 2)) return;
 
-        double cash = UpgradeManager.CLICK_MULTIPLIER;
+        long cash = UpgradeManager.getUpgrade(ClickUpgrade.class).getCurrentLevel();
         Game.INSTANCE.getEntities().add(
             new CashEntity((double) e.getX(), (double) e.getY(), cash, 3)
         );
-        Game.INSTANCE.addCash(UpgradeManager.CLICK_MULTIPLIER);
+        Game.INSTANCE.addCash(cash);
 
         state = AnimationState.INCREASING;
     }

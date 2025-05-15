@@ -10,21 +10,23 @@ import javax.swing.JFrame;
 
 import game.entities.BlackholeEntity;
 import game.entities.CurrentCashEntity;
-import game.entities.DestroyableEntity;
 import game.entities.OpenShopEntity;
+import game.entities.ShopEntity;
 import game.listeners.ClickHandler;
 import game.listeners.ExitHandler;
+import game.listeners.ResizeListener;
 
 public class Game extends JFrame implements Runnable {
 
     public static Game INSTANCE;
-    public final static int WIDTH = 1200;
-    public final static int HEIGHT = 900;
+    public static volatile int WIDTH = 1200;
+    public static volatile int HEIGHT = 900;
     public final static String NAME = "Blackhole Clicker";
     public final static Color BACKGROUND_COLOR = Color.BLACK;
 
-    private boolean running;
+    public volatile boolean running;
     private Thread gameThread;
+    private Thread generatorThread;
     private long lastFrameTime;
     // private double fpsAccumulator;
     private double cash;
@@ -40,9 +42,11 @@ public class Game extends JFrame implements Runnable {
         INSTANCE = this;
         
         setSize(WIDTH, HEIGHT);
-        setResizable(false);
+        // setResizable(false);
         setBackground(BACKGROUND_COLOR);
         setVisible(true);
+
+        UpgradeManager.load();
 
         try {
             ResourceManager.load();
@@ -55,20 +59,19 @@ public class Game extends JFrame implements Runnable {
         running = true;
 
         guiEntities.add(new CurrentCashEntity());
-        // guiEntities.add(new OpenShopEntity());
+        guiEntities.add(new ShopEntity());
+        guiEntities.add(new OpenShopEntity());
         entities.add(new BlackholeEntity());
-        // entities.add(new CashEntity(WIDTH / 2, HEIGHT / 2, Math.random() * 10000, 3));
-        // entities.add(new DestroyableEntity(50.0, 50.0, BLACKHOLE_IMAGE, 2.0));
-        for (int i = 0; i < 1; i++) {
-            entities.add(new DestroyableEntity(Math.random() * WIDTH, Math.random() * HEIGHT, ResourceManager.WOOD_CHAIR_IMAGE, Math.random() * 1000));
-        }
 
         addMouseListener(new ClickHandler());
         addWindowListener(new ExitHandler());
+        addComponentListener(new ResizeListener());
 
         createBufferStrategy(2);
         gameThread = new Thread(this);
         gameThread.start();
+        generatorThread = new Thread(new Generator());
+        generatorThread.start();
     }
 
     public void render() {
@@ -125,9 +128,7 @@ public class Game extends JFrame implements Runnable {
             // }
             try {
                 Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException e) {}
         }
     }
 
@@ -136,6 +137,8 @@ public class Game extends JFrame implements Runnable {
         try {
             running = false;
             gameThread.join();
+            generatorThread.interrupt();
+            generatorThread.join();
             System.exit(0);
         } catch (InterruptedException e) {
             throw new RuntimeException("Unable to stop the game thread", e);

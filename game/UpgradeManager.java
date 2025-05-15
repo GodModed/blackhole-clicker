@@ -1,36 +1,42 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import game.upgrades.ChairUpgrade;
+import game.upgrades.ClickUpgrade;
 
 public class UpgradeManager {
 
-    public static UpgradeManager INSTANCE;
+    private static Map<Class<? extends Upgrade>, Upgrade> upgradeMap = new HashMap<>();
+    private static ArrayList<Upgrade> upgrades = new ArrayList<>();
 
-    private Map<Class<? extends Upgrade>, Upgrade> upgradeMap = new HashMap<>();
-
-    public UpgradeManager() {
-        if (INSTANCE != null) throw new RuntimeException("UpgradeManager already exists");
-        INSTANCE = this;
+    public static void load() {
         register(
-            new ChairUpgrade()
+            new ClickUpgrade(1),
+            new ChairUpgrade(0)
         );
     }
 
-    private <T extends Upgrade> void register(T upgrade) {
+    private static <T extends Upgrade> void register(T upgrade) {
         upgradeMap.put(upgrade.getClass(), upgrade);
+        upgrades.add(upgrade);
     }
 
-    private <T extends Upgrade> void register(T... upgrades) {
+    @SuppressWarnings("all")
+    private static <T extends Upgrade> void register(T... upgrades) {
         for (T upgrade : upgrades) {
             register(upgrade);
         }
     }
 
-    public Upgrade getUpgrade(Class<? extends Upgrade> clazz) {
+    public static Upgrade getUpgrade(Class<? extends Upgrade> clazz) {
         return upgradeMap.get(clazz);
+    }
+
+    public static ArrayList<Upgrade> getUpgrades() {
+        return upgrades;
     }
 
 

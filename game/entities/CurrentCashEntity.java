@@ -22,11 +22,17 @@ public class CurrentCashEntity extends Entity {
         g.setFont(oldFont.deriveFont(50f));
 
         FontMetrics metrics = g.getFontMetrics();
-        String totalCashString = "$" + (long) Game.INSTANCE.getCash();
+        String totalCashString = "$" + Game.INSTANCE.getCash();
         Rectangle2D bounds = metrics.getStringBounds(totalCashString, g);
 
         g.drawString(totalCashString, (int) (getX() - bounds.getWidth() / 2), (int) (getY() - bounds.getHeight() / 2 ));
         g.setFont(oldFont);
+    }
+
+    @Override
+    public void update(double dt) {
+        setX(Game.WIDTH / 2);
+        setY(ResourceManager.BLACKHOLE_IMAGE.getHeight() / 2 + 20);
     }
     
 }

@@ -26,16 +26,27 @@ public abstract class Upgrade {
 
     public double getCost(long level) {
         if (level > getMaxLevel()) return -1.0;
-        return getBaseCost() * Math.pow(1.15, level);
+        return getBaseCost() * Math.pow(1.3, level);
     }
 
     public double getCost() {
-        return getCost(currentLevel + 1);
+        return getCost(currentLevel);
     }
 
     public void addLevel() {
-        if (currentLevel >= getMaxLevel()) return;
+        if (isMaxLevel()) return;
         currentLevel++;
+    }
+
+    public boolean isMaxLevel() {
+        return currentLevel >= getMaxLevel();
+    }
+
+    public void upgrade() {
+        if (isMaxLevel()) return;
+        if (Game.INSTANCE.getCash() < getCost()) return;
+        Game.INSTANCE.addCash(-getCost());
+        addLevel();
     }
 
     

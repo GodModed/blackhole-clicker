@@ -3,6 +3,8 @@ package game.listeners;
 import java.awt.event.MouseListener;
 
 import game.entities.BlackholeEntity;
+import game.entities.OpenShopEntity;
+import game.entities.ShopEntity;
 
 import java.awt.event.MouseEvent;
 
@@ -14,6 +16,8 @@ public class ClickHandler implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         BlackholeEntity.INSTANCE.click(e);
+        ShopEntity.INSTANCE.click(e);
+        OpenShopEntity.INSTANCE.click(e);
     }
 
     @Override
