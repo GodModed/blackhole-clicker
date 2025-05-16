@@ -2,9 +2,11 @@ package game;
 
 import java.awt.Point;
 
-import game.entities.DestroyableEntity;
-import game.upgrades.ChairUpgrade;
-import game.upgrades.ChairUpgrade.ChairLevel;
+import game.entity.entities.DestroyableEntity;
+import game.upgrade.Upgrade;
+import game.upgrade.UpgradeManager;
+import game.upgrade.upgrades.ChairUpgrade;
+import game.upgrade.upgrades.ChairUpgrade.ChairLevel;
 
 public class Generator implements Runnable {
 
@@ -13,6 +15,7 @@ public class Generator implements Runnable {
         while (Game.INSTANCE.running) {
 
 
+            // spawn chair with current level at random position with radius 500 from center
             Point randomPos = generateRandomPos(500);
             Upgrade chairUpgrade = UpgradeManager.getUpgrade(ChairUpgrade.class);
             if (chairUpgrade.getCurrentLevel() != 0) {
@@ -22,12 +25,13 @@ public class Generator implements Runnable {
             
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(5000); // do this every 5 seconds
             } catch (InterruptedException e) {}
         }
     }
 
     private Point generateRandomPos(double radius) {
+        // get random point around the center
         double theta = Math.random() * 2 * Math.PI;
         double x = Math.cos(theta) * radius + Game.WIDTH / 2;
         double y = Math.sin(theta) * radius + Game.HEIGHT / 2;

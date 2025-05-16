@@ -1,11 +1,11 @@
-package game;
+package game.upgrade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import game.upgrades.ChairUpgrade;
-import game.upgrades.ClickUpgrade;
+import game.upgrade.upgrades.ChairUpgrade;
+import game.upgrade.upgrades.ClickUpgrade;
 
 public class UpgradeManager {
 

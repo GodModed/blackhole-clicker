@@ -7,13 +7,10 @@ import java.awt.Font;
 import java.awt.font.TextAttribute;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 
 public class ResourceManager {
     public static BufferedImage BLACKHOLE_IMAGE;
     public static BufferedImage SHOP_IMAGE;
-    public static BufferedImage ARROW_IMAGE;
     public static BufferedImage WOOD_CHAIR_IMAGE;
     public static BufferedImage STONE_CHAIR_IMAGE;
     public static BufferedImage IRON_CHAIR_IMAGE;
@@ -27,10 +24,10 @@ public class ResourceManager {
 
     @SuppressWarnings("all")
     public static void load() throws Exception {
+        // basically, this method just loads all resources before the game starts so they can be used by reference
         BLACKHOLE_IMAGE = ImageIO.read(new File("resources/blackhole.png"));
 
         SHOP_IMAGE = ImageIO.read(new File("resources/shop.png"));
-        ARROW_IMAGE = ImageIO.read(new File("resources/arrow.png"));
 
         WOOD_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/wood_chair.png"));
         STONE_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/stone_chair.png"));

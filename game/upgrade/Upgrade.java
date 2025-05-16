@@ -1,6 +1,9 @@
-package game;
+package game.upgrade;
 
 import java.awt.image.BufferedImage;
+
+import game.Game;
+import game.ResourceManager;
 
 public abstract class Upgrade {
 
@@ -25,8 +28,8 @@ public abstract class Upgrade {
     }
 
     public double getCost(long level) {
-        if (level >= getMaxLevel()) return -1.0;
-        return getBaseCost() * Math.pow(1.3, level);
+        if (level >= getMaxLevel()) return -1.0; // if max, return impossible value
+        return getBaseCost() * Math.pow(1.3, level); // multiply by 1.3 for every level
     }
 
     public double getCost() {
@@ -43,10 +46,11 @@ public abstract class Upgrade {
     }
 
     public void upgrade() {
-        if (isMaxLevel()) return;
-        if (Game.INSTANCE.getCash() < getCost()) return;
-        Game.INSTANCE.addCash(-getCost());
-        addLevel();
+        if (isMaxLevel()) return; // can't go above max level
+        if (Game.INSTANCE.getCash() < getCost()) return; // check if it has enough cash
+        ResourceManager.UPGRADE_SOUND.play(); // play upgrade sound
+        Game.INSTANCE.addCash(-getCost()); // remove cash
+        addLevel(); // upgrade
     }
 
     

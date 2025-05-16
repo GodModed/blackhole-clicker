@@ -1,8 +1,14 @@
-package game;
+package game.entity;
 
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 
-public abstract class Entity implements IRenderable, IUpdatable {
+import game.interfaces.IClickable;
+import game.interfaces.IRenderable;
+import game.interfaces.IResizable;
+import game.interfaces.IUpdatable;
+
+public abstract class Entity implements IRenderable, IUpdatable, IClickable, IResizable {
     
     private double  x, y,   // position
                     dx, dy, // velocity
@@ -10,7 +16,7 @@ public abstract class Entity implements IRenderable, IUpdatable {
     private boolean alive;
 
     public Entity(double x, double y) {
-        this(x, y, 0, 0);
+        this(x, y, 0, 0); // start entitiy with no velocity
     }
 
     public Entity(double x, double y, double dx, double dy) {
@@ -32,8 +38,11 @@ public abstract class Entity implements IRenderable, IUpdatable {
         y += dy * dt;   
     }
 
+    @Override public void click(MouseEvent e) {} // entities can override to get these events :)
+    @Override public void resize() {} // ^
+
     public void remove() {
-        alive = false;
+        alive = false; // mark as deleted so it won't be rendered and it will be deleted in the next frame
     }
 
     // -- GETTERS -- 

@@ -12,7 +12,7 @@ public class ExitHandler implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        Game.INSTANCE.stop();
+        Game.INSTANCE.stop(); // stop the game when the window is closed. Graceful shutdown
     }
 
     @Override

@@ -1,9 +1,9 @@
-package game.upgrades;
+package game.upgrade.upgrades;
 
 import java.awt.image.BufferedImage;
 
 import game.ResourceManager;
-import game.Upgrade;
+import game.upgrade.Upgrade;
 
 public class ChairUpgrade extends Upgrade {
 

@@ -1,11 +1,10 @@
 package game.listeners;
 
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
-import game.ResourceManager;
-import game.entities.BlackholeEntity;
-import game.entities.OpenShopEntity;
-import game.entities.ShopEntity;
+import game.Game;
+import game.entity.Entity;
 
 import java.awt.event.MouseEvent;
 
@@ -16,9 +15,10 @@ public class ClickHandler implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        BlackholeEntity.INSTANCE.click(e);
-        ShopEntity.INSTANCE.click(e);
-        OpenShopEntity.INSTANCE.click(e);
+        ArrayList<Entity> allEntities = Game.INSTANCE.getAllEntities();
+        for (int i = 0; i < allEntities.size(); i++) {
+            allEntities.get(i).click(e);
+        }
     }
 
     @Override

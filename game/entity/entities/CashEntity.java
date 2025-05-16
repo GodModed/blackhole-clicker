@@ -1,11 +1,11 @@
-package game.entities;
+package game.entity.entities;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.FontMetrics;
 
-import game.Entity;
 import game.NumberFormatter;
+import game.entity.Entity;
 
 public class CashEntity extends Entity {
 
@@ -18,29 +18,29 @@ public class CashEntity extends Entity {
         this.cash = cash;
         this.fadeTime = fadeTime;
         this.currentFade = fadeTime;
-        setDeltaY(-150);
+        setDeltaY(-150); // go up at 150 pixels / sec
     }
 
     @Override
     public void render(Graphics2D g) {
 
         FontMetrics metric = g.getFontMetrics();
-        String cashString = "+$" + NumberFormatter.format(cash);
+        String cashString = "+$" + NumberFormatter.format(cash); // format cash string
 
-        int width = metric.stringWidth(cashString);
+        int width = metric.stringWidth(cashString); // get width so it can be centered
 
-        double alpha = (currentFade / fadeTime) * 255;
+        double alpha = (currentFade / fadeTime) * 255; // get alpha scaled from 0 to 255
         Color color = new Color(0, 255, 0, (int) alpha);
-        g.setColor(color);
-        g.drawString(cashString, (int) getX() - width / 2, (int) getY());
+        g.setColor(color); // set color of cash
+        g.drawString(cashString, (int) getX() - width / 2, (int) getY()); // draw cash
     }
 
     @Override
     public void update(double dt) {
         super.update(dt);
-        currentFade -= dt;
-        if (currentFade <= 0) remove();
+        currentFade -= dt; // decrease fade
+        if (currentFade <= 0) remove(); // remove the entity when it is faded out of existance
         
-        addDeltaX((Math.random() - 0.5) * 1500 * dt);
+        addDeltaX((Math.random() - 0.5) * 1500 * dt); // make it jitter around randomly
     }
 }

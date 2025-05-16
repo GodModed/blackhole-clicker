@@ -18,12 +18,13 @@ public class Sound {
     }
 
     public void play() {
+        // play sound in a new thread so multiple sounds can be played at the same time
         new Thread(() -> {
             try {
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile); // read sound from file
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
-                clip.start();
+                clip.start(); // play sound
             } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
                 throw new RuntimeException("Could not get audio system / load file stream.", e);
             }
