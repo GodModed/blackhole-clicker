@@ -11,6 +11,7 @@ import java.awt.AlphaComposite;
 
 import game.Entity;
 import game.Game;
+import game.NumberFormatter;
 import game.ResourceManager;
 import game.Upgrade;
 import game.UpgradeManager;
@@ -53,8 +54,8 @@ public class ShopEntity extends Entity {
         Rectangle2D bounds = g.getFontMetrics().getStringBounds(upgradeName, g);
 
         g.drawString(upgrade.getName(), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2 - bounds.getHeight()));
-        g.drawString("Cost:\t" + (long) Math.ceil(upgrade.getCost()), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2));
-        g.drawString("Level:\t" + upgrade.getCurrentLevel(), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2 + bounds.getHeight()));
+        g.drawString("Cost:  " + NumberFormatter.format(upgrade.getCost()), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2));
+        g.drawString("Level: " + upgrade.getCurrentLevel(), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2 + bounds.getHeight()));
         Font oldFont = g.getFont();
         g.setFont(oldFont.deriveFont(50f));
 
@@ -107,8 +108,12 @@ public class ShopEntity extends Entity {
 
     public void click(MouseEvent e) {
         if (state == AnimationState.DECREASING || alpha == 0) return;
-        if (upgradeBounds.isBetweenBounds(e.getX(), e.getY())) UpgradeManager.getUpgrades().get(selectedUpgrade).upgrade();
+        if (upgradeBounds.isBetweenBounds(e.getX(), e.getY())) {
+            ResourceManager.UPGRADE_SOUND.play();
+            UpgradeManager.getUpgrades().get(selectedUpgrade).upgrade();
+        }
         if (nextBounds.isBetweenBounds(e.getX(), e.getY())) {
+            ResourceManager.SWOOSH_SOUND.play();
             selectedUpgrade = (selectedUpgrade + 1) % UpgradeManager.getUpgrades().size();
         }
 
@@ -118,6 +123,7 @@ public class ShopEntity extends Entity {
         open = !open;
         if (open) state = AnimationState.INCREASING;
         else state = AnimationState.DECREASING;
+        ResourceManager.SWOOSH_SOUND.play();
     }
 
     private class Bound {

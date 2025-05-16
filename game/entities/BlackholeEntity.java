@@ -72,6 +72,9 @@ public class BlackholeEntity extends Entity {
 
         if (Math.pow(distX, 2) + Math.pow(distY, 2) >= Math.pow(128, 2)) return;
 
+        ResourceManager.CLICK_SOUND.play();
+
+
         long cash = UpgradeManager.getUpgrade(ClickUpgrade.class).getCurrentLevel();
         Game.INSTANCE.getEntities().add(
             new CashEntity((double) e.getX(), (double) e.getY(), cash, 3)

@@ -1,6 +1,7 @@
 package game.entities;
 
 import game.Game;
+import game.ResourceManager;
 import game.Entity;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -43,6 +44,8 @@ public class DestroyableEntity extends Entity {
             Game.INSTANCE.getEntities().add(
                 new DestroyedFramentEntity(getX(), getY(), image, 1, getRotation())
             );
+
+            ResourceManager.SWALLOW_SOUND.play();
 
             return;
         }

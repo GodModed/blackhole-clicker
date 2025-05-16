@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.font.TextAttribute;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 public class ResourceManager {
     public static BufferedImage BLACKHOLE_IMAGE;
@@ -18,6 +20,10 @@ public class ResourceManager {
     public static BufferedImage DIAMOND_CHAIR_IMAGE;
     public static BufferedImage RUBY_CHAIR_IMAGE;
     public static Font MONOCRAFT_FONT;
+    public static Sound SWALLOW_SOUND;
+    public static Sound CLICK_SOUND;
+    public static Sound SWOOSH_SOUND;
+    public static Sound UPGRADE_SOUND;
 
     @SuppressWarnings("all")
     public static void load() throws Exception {
@@ -36,6 +42,11 @@ public class ResourceManager {
         Map attributes = MONOCRAFT_FONT.getAttributes();
         attributes.put(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON);
         MONOCRAFT_FONT = MONOCRAFT_FONT.deriveFont(attributes);
+
+        SWALLOW_SOUND = new Sound(new File("resources/audio/swallow.wav"));
+        CLICK_SOUND = new Sound(new File("resources/audio/click.wav"));
+        SWOOSH_SOUND = new Sound(new File("resources/audio/swoosh.wav"));
+        UPGRADE_SOUND = new Sound(new File("resources/audio/upgrade.wav"));
 
     }
 

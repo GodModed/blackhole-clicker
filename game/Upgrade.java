@@ -25,7 +25,7 @@ public abstract class Upgrade {
     }
 
     public double getCost(long level) {
-        if (level > getMaxLevel()) return -1.0;
+        if (level >= getMaxLevel()) return -1.0;
         return getBaseCost() * Math.pow(1.3, level);
     }
 

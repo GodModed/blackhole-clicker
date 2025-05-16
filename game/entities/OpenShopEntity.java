@@ -31,8 +31,10 @@ public class OpenShopEntity extends Entity {
     }
 
     public void click(MouseEvent e) {
-        double distanceSquared = Math.pow(e.getX() - getX(),2) + Math.pow(e.getY() - getY(), 2);
-        if (distanceSquared > 256) return;
+        double distX = Math.abs(e.getX() - getX());
+        double distY = Math.abs(e.getY() - getY());
+
+        if (Math.pow(distX, 2) + Math.pow(distY, 2) >= Math.pow(64, 2)) return;
         ShopEntity.INSTANCE.toggle();
     }
     

@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import game.Entity;
 import game.Game;
+import game.NumberFormatter;
 import game.ResourceManager;
 
 public class CurrentCashEntity extends Entity {
@@ -22,7 +23,7 @@ public class CurrentCashEntity extends Entity {
         g.setFont(oldFont.deriveFont(50f));
 
         FontMetrics metrics = g.getFontMetrics();
-        String totalCashString = "$" + Game.INSTANCE.getCash();
+        String totalCashString = "$" + NumberFormatter.format(Game.INSTANCE.getCash());
         Rectangle2D bounds = metrics.getStringBounds(totalCashString, g);
 
         g.drawString(totalCashString, (int) (getX() - bounds.getWidth() / 2), (int) (getY() - bounds.getHeight() / 2 ));

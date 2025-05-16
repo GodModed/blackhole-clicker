@@ -2,6 +2,7 @@ package game.listeners;
 
 import java.awt.event.MouseListener;
 
+import game.ResourceManager;
 import game.entities.BlackholeEntity;
 import game.entities.OpenShopEntity;
 import game.entities.ShopEntity;

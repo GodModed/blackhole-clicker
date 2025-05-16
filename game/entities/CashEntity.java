@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.FontMetrics;
 
 import game.Entity;
+import game.NumberFormatter;
 
 public class CashEntity extends Entity {
 
@@ -24,7 +25,7 @@ public class CashEntity extends Entity {
     public void render(Graphics2D g) {
 
         FontMetrics metric = g.getFontMetrics();
-        String cashString = "+$" + (long) cash;
+        String cashString = "+$" + NumberFormatter.format(cash);
 
         int width = metric.stringWidth(cashString);
 
