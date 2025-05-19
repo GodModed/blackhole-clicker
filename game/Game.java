@@ -79,7 +79,16 @@ public class Game extends JFrame implements Runnable {
 
     public void render() {
         BufferStrategy bs = getBufferStrategy(); // get the buffer that can be drawn on
-        // TODO: fix issue where buffers have not been created on resize
+
+        if (bs == null || bs.contentsLost()) {
+            createBufferStrategy(2);
+            bs = getBufferStrategy();
+            if (bs == null) {
+                System.err.println("Unable to create new buffer strategy.");
+                return;
+            }
+        }
+
         Graphics2D g = (Graphics2D) bs.getDrawGraphics(); // get the graphics object that will let me draw
 
         g.setColor(BACKGROUND_COLOR);
