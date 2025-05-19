@@ -12,11 +12,6 @@ public class ClickUpgrade extends Upgrade {
     }
 
     @Override
-    public String getId() {
-        return "click_upgrade";
-    }
-
-    @Override
     public String getName() {
         return "Click Upgrade";
     }

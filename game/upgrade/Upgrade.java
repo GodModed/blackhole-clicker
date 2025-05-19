@@ -17,7 +17,6 @@ public abstract class Upgrade {
         this.currentLevel = 0;
     }
     
-    public abstract String getId();
     public abstract String getName();
     public abstract BufferedImage getIcon();
     public abstract long getBaseCost();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import game.upgrade.upgrades.CarUpgrade;
 import game.upgrade.upgrades.ChairUpgrade;
 import game.upgrade.upgrades.ClickUpgrade;
 
@@ -15,7 +16,8 @@ public class UpgradeManager {
     public static void load() {
         register(
             new ClickUpgrade(1),
-            new ChairUpgrade(0)
+            new ChairUpgrade(0),
+            new CarUpgrade(0)
         );
     }
 

@@ -1,0 +1,6 @@
+Chair Upgrade
+wood_chair 5
+stone_chair 10
+iron_chair 20
+diamond_chair 50
+ruby_chair 100
