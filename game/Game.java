@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.JFrame;
 
@@ -33,6 +34,7 @@ public class Game extends JFrame implements Runnable {
     private double cash; // current cash in game
     private ArrayList<Entity> entities = new ArrayList<>(); // list that contains all the entities needed to be rendered.
     private ArrayList<Entity> guiEntities = new ArrayList<>(); // these entities are rendered on top of the other list.
+    private ConcurrentLinkedQueue<Entity> entityQueue = new ConcurrentLinkedQueue<>();
 
     public Game() {
         super(NAME);
@@ -135,9 +137,18 @@ public class Game extends JFrame implements Runnable {
             // clean up dead entities
             removeDeadEntities();
 
+            // add queued entities
+            addQueuedEntities();
+
             try {
                 Thread.sleep(1); // let the cpu have a break. peak fps = 1000
             } catch (InterruptedException e) {}
+        }
+    }
+
+    private void addQueuedEntities() {
+        while (entityQueue.peek() != null) {
+            entities.add(entityQueue.poll());
         }
     }
 
@@ -170,11 +181,12 @@ public class Game extends JFrame implements Runnable {
         return entities;
     }
 
-    public ArrayList<Entity> getAllEntities() {
-        ArrayList<Entity> entityList = new ArrayList<>();
-        entityList.addAll(entities);
-        entityList.addAll(guiEntities);
-        return entityList;
+    public void addEntity(Entity entity) {
+        entityQueue.add(entity);
+    }
+
+    public ArrayList<Entity> getGuiEntities() {
+        return guiEntities;
     }
 
     public double getCash() {

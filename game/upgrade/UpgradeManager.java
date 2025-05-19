@@ -15,7 +15,7 @@ public class UpgradeManager {
 
     public static void load() {
         register(
-            new ClickUpgrade(1),
+            new ClickUpgrade(1000),
             new ChairUpgrade(0),
             new CarUpgrade(0)
         );

@@ -39,10 +39,10 @@ public class DestroyableEntity extends Entity {
         if (Math.pow(distX, 2) + Math.pow(distY, 2) < Math.pow(128, 2)) { // if the centtiy is insise of the black hole, kill it
             remove(); // remove entity
             Game.INSTANCE.addCash(cash); // add cash
-            Game.INSTANCE.getEntities().add(
+            Game.INSTANCE.addEntity(
                 new CashEntity(getX(), getY(), cash, 3)
             ); // create cash entity that pops up
-            Game.INSTANCE.getEntities().add(
+            Game.INSTANCE.addEntity(
                 new DestroyedFramentEntity(getX(), getY(), image, 1, getRotation())
             ); // make the object fade out
 

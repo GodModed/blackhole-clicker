@@ -1,7 +1,6 @@
 package game.listeners;
 
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import game.Game;
 import game.entity.Entity;
@@ -15,9 +14,12 @@ public class ClickHandler implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        ArrayList<Entity> allEntities = Game.INSTANCE.getAllEntities();
-        for (int i = 0; i < allEntities.size(); i++) {
-            allEntities.get(i).click(e);
+        for (Entity entity : Game.INSTANCE.getEntities()) {
+            entity.click(e);
+        }
+
+        for (Entity entity : Game.INSTANCE.getGuiEntities()) {
+            entity.click(e);
         }
     }
 

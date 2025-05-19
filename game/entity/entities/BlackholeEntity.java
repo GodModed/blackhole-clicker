@@ -72,7 +72,7 @@ public class BlackholeEntity extends Entity {
 
 
         long cash = UpgradeManager.getUpgrade(ClickUpgrade.class).getCurrentLevel(); // get cash from click upgrade
-        Game.INSTANCE.getEntities().add(
+        Game.INSTANCE.addEntity(
             new CashEntity((double) e.getX(), (double) e.getY(), cash, 3)
         );
         Game.INSTANCE.addCash(cash); // add click upgrade cash

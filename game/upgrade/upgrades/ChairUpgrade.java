@@ -17,10 +17,5 @@ public class ChairUpgrade extends GeneratorUpgrade {
     public long getBaseCost() {
         return 500;
     }
-
-    @Override
-    public long getMaxLevel() {
-        return 5;
-    }
     
 }

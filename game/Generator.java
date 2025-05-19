@@ -30,12 +30,12 @@ public class Generator implements Runnable {
         GeneratorUpgrade generatorUpgrade = (GeneratorUpgrade) upgrade;
         Point randomPoint = generateRandomPos(getRadius());
         DestroyableEntity object = new DestroyableEntity(randomPoint.getX(), randomPoint.getY(), generatorUpgrade.getCurrentIcon(), generatorUpgrade.getCurrentCash());
-        Game.INSTANCE.getEntities().add(object);
+        Game.INSTANCE.addEntity(object);
     }
 
     private double getRadius() {
-        if (Game.HEIGHT > Game.WIDTH) return Game.WIDTH;
-        return Game.HEIGHT;
+        if (Game.HEIGHT > Game.WIDTH) return Game.WIDTH / 2;
+        return Game.HEIGHT / 2;
     }
 
     private Point generateRandomPos(double radius) {

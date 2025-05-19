@@ -27,4 +27,9 @@ public abstract class GeneratorUpgrade extends Upgrade implements IGeneratorUpgr
         return ResourceManager.GENERATOR_MAP.get(getName()).get((int) getCurrentLevel() - 1).cash;
     }
 
+    @Override
+    public long getMaxLevel() {
+        return ResourceManager.GENERATOR_MAP.get(getName()).size();
+    }
+
 }

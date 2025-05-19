@@ -1,2 +1,6 @@
 Car Upgrade
-smart_car 10000
+smart_car 250
+wrangler_car 350
+cybertruck_car 500
+gtr_car 750
+bugatti_car 1000
