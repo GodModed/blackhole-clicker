@@ -34,6 +34,7 @@ public class ResourceManager {
         // basically, this method just loads all resources before the game starts so they can be used by reference
         loadImage("blackhole.png");
         loadImage("whitehole.png");
+        loadImage("upgrade.png");
 
         loadImage("shop.png");
         loadImage("click_upgrade.png");

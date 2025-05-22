@@ -26,6 +26,8 @@ public class ThreatEntity extends DestroyableEntity {
         Game.INSTANCE.addEntity(
             new DestroyedFramentEntity(getX(), getY(), IMAGE, 1, 0)  
         );
+
+        ResourceManager.SWALLOW_SOUND.play();
     }
 
 }

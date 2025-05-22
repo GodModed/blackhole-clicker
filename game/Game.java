@@ -79,6 +79,8 @@ public class Game extends JFrame implements Runnable {
         generatorThread.start(); // start the generators
 
         setLocationRelativeTo(null);
+        setAlwaysOnTop(true);
+        setAlwaysOnTop(false); //weird trick to focus frame
     }
 
     public void render() {
@@ -144,7 +146,9 @@ public class Game extends JFrame implements Runnable {
 
             try {
                 Thread.sleep(1); // let the cpu have a break. peak fps = 1000
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                return;
+            }
         }
     }
 

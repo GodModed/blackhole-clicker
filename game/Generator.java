@@ -7,13 +7,15 @@ import game.entity.entities.ThreatEntity;
 import game.upgrade.GeneratorUpgrade;
 import game.upgrade.Upgrade;
 import game.upgrade.UpgradeManager;
+import game.upgrade.upgrades.GeneratorSpeedUpgrade;
+import game.upgrade.upgrades.WhiteholeDeleterUpgrade;
 
 public class Generator implements Runnable {
 
     @Override
     public void run() {
         while (Game.INSTANCE.running) {
-            if (Math.random() < 0.25) {
+            if (Math.random() < 1.0 / (4 + UpgradeManager.getUpgrade(WhiteholeDeleterUpgrade.class).getCurrentLevel())) { // chance that a threat spawns
                 Point randomPoint = generateRandomPos(getRadius());
                 Game.INSTANCE.addEntity(
                     new ThreatEntity(randomPoint.getX(), randomPoint.getY(), Game.INSTANCE.getCash() / 10)
@@ -25,12 +27,16 @@ public class Generator implements Runnable {
                 spawnObject(upgrade);
                 try {
                     Thread.sleep(500);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                    return;
+                }
             }
 
             try {
-                Thread.sleep(5000); // do this every 5 seconds
-            } catch (InterruptedException e) {}
+                Thread.sleep(5000 - UpgradeManager.getUpgrade(GeneratorSpeedUpgrade.class).getCurrentLevel() * 1000); // 5 seconds - generator level
+            } catch (InterruptedException e) {
+                return;
+            }
         }
     }
 

@@ -7,8 +7,10 @@ import java.util.Map;
 import game.upgrade.upgrades.CarUpgrade;
 import game.upgrade.upgrades.ChairUpgrade;
 import game.upgrade.upgrades.ClickUpgrade;
+import game.upgrade.upgrades.GeneratorSpeedUpgrade;
 import game.upgrade.upgrades.HouseUpgrade;
 import game.upgrade.upgrades.PlanetUpgrade;
+import game.upgrade.upgrades.WhiteholeDeleterUpgrade;
 
 public class UpgradeManager {
 
@@ -19,20 +21,22 @@ public class UpgradeManager {
         register(
             new ClickUpgrade(1),
             new ChairUpgrade(0),
+            new GeneratorSpeedUpgrade(0),
             new CarUpgrade(0),
+            new WhiteholeDeleterUpgrade(0),
             new HouseUpgrade(0),
             new PlanetUpgrade(0)
         );
     }
 
-    private static <T extends Upgrade> void register(T upgrade) {
+    private static void register(Upgrade upgrade) {
         upgradeMap.put(upgrade.getClass(), upgrade);
         upgrades.add(upgrade);
     }
 
     @SuppressWarnings("all")
-    private static <T extends Upgrade> void register(T... upgrades) {
-        for (T upgrade : upgrades) {
+    private static void register(Upgrade... upgrades) {
+        for (Upgrade upgrade : upgrades) {
             register(upgrade);
         }
     }
