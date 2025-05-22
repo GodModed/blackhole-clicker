@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 
@@ -17,36 +18,27 @@ import javax.imageio.ImageIO;
 import game.upgrade.GeneratorSlot;
 
 public class ResourceManager {
-    public static BufferedImage BLACKHOLE_IMAGE;
-    public static BufferedImage SHOP_IMAGE;
-    public static BufferedImage WOOD_CHAIR_IMAGE;
-    public static BufferedImage STONE_CHAIR_IMAGE;
-    public static BufferedImage IRON_CHAIR_IMAGE;
-    public static BufferedImage DIAMOND_CHAIR_IMAGE;
-    public static BufferedImage RUBY_CHAIR_IMAGE;
-    public static BufferedImage SMART_CAR_IMAGE;
+
     public static Font MONOCRAFT_FONT;
     public static Sound SWALLOW_SOUND;
     public static Sound CLICK_SOUND;
     public static Sound SWOOSH_SOUND;
     public static Sound UPGRADE_SOUND;
 
+    private static ArrayList<CompletableFuture<Void>> futures = new ArrayList<>();
+    public static Map<String, BufferedImage> RESOURCE_MAP = new HashMap<>();
     public static Map<String, List<GeneratorSlot>> GENERATOR_MAP = new HashMap<>();
 
     @SuppressWarnings("all")
     public static void load() throws Exception {
         // basically, this method just loads all resources before the game starts so they can be used by reference
-        BLACKHOLE_IMAGE = ImageIO.read(new File("resources/blackhole.png"));
+        loadImage("blackhole.png");
+        loadImage("whitehole.png");
 
-        SHOP_IMAGE = ImageIO.read(new File("resources/shop.png"));
+        loadImage("shop.png");
+        loadImage("click_upgrade.png");
 
-        WOOD_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/wood_chair.png"));
-        STONE_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/stone_chair.png"));
-        IRON_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/iron_chair.png"));
-        DIAMOND_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/diamond_chair.png"));
-        RUBY_CHAIR_IMAGE = ImageIO.read(new File("resources/chair/ruby_chair.png"));
-
-        SMART_CAR_IMAGE = ImageIO.read(new File("resources/car/smart_car.png"));
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
 
         MONOCRAFT_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Monocraft.ttf")).deriveFont(24f);
         Map attributes = MONOCRAFT_FONT.getAttributes();
@@ -60,6 +52,19 @@ public class ResourceManager {
 
         loadGenerators();
 
+    }
+
+    public static void loadImage(String path) {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                RESOURCE_MAP.put(path, ImageIO.read(new File("resources/" + path)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+
+        futures.add(future);
     }
 
     public static void loadGenerators() throws IOException {

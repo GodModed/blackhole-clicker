@@ -11,7 +11,7 @@ import game.entity.Entity;
 public class OpenShopEntity extends Entity {
 
     public static OpenShopEntity INSTANCE;
-    private static final BufferedImage IMAGE = ResourceManager.SHOP_IMAGE;
+    private static final BufferedImage IMAGE = ResourceManager.RESOURCE_MAP.get("shop.png");
 
     public OpenShopEntity() {
         super(Game.WIDTH - IMAGE.getWidth() / 2 - 20, Game.HEIGHT - IMAGE.getHeight() / 2 - 20);

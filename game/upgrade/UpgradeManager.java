@@ -7,6 +7,8 @@ import java.util.Map;
 import game.upgrade.upgrades.CarUpgrade;
 import game.upgrade.upgrades.ChairUpgrade;
 import game.upgrade.upgrades.ClickUpgrade;
+import game.upgrade.upgrades.HouseUpgrade;
+import game.upgrade.upgrades.PlanetUpgrade;
 
 public class UpgradeManager {
 
@@ -15,9 +17,11 @@ public class UpgradeManager {
 
     public static void load() {
         register(
-            new ClickUpgrade(1000),
+            new ClickUpgrade(1),
             new ChairUpgrade(0),
-            new CarUpgrade(0)
+            new CarUpgrade(0),
+            new HouseUpgrade(0),
+            new PlanetUpgrade(0)
         );
     }
 

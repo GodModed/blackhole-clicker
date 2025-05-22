@@ -3,6 +3,7 @@ package game;
 import java.awt.Point;
 
 import game.entity.entities.DestroyableEntity;
+import game.entity.entities.ThreatEntity;
 import game.upgrade.GeneratorUpgrade;
 import game.upgrade.Upgrade;
 import game.upgrade.UpgradeManager;
@@ -12,9 +13,19 @@ public class Generator implements Runnable {
     @Override
     public void run() {
         while (Game.INSTANCE.running) {
+            if (Math.random() < 0.25) {
+                Point randomPoint = generateRandomPos(getRadius());
+                Game.INSTANCE.addEntity(
+                    new ThreatEntity(randomPoint.getX(), randomPoint.getY(), Game.INSTANCE.getCash() / 10)
+                );
+            }
+            
 
             for (Upgrade upgrade : UpgradeManager.getUpgrades()) {
                 spawnObject(upgrade);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {}
             }
 
             try {

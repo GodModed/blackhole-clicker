@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import game.Game;
 import game.NumberFormatter;
@@ -12,8 +13,10 @@ import game.entity.Entity;
 
 public class CurrentCashEntity extends Entity {
 
+    private final static BufferedImage IMAGE = ResourceManager.RESOURCE_MAP.get("blackhole.png");
+
     public CurrentCashEntity() {
-        super(Game.WIDTH / 2, ResourceManager.BLACKHOLE_IMAGE.getHeight() / 2 + 20);
+        super(Game.WIDTH / 2, IMAGE.getHeight() / 2 + 20);
     }
 
     @Override
@@ -33,7 +36,7 @@ public class CurrentCashEntity extends Entity {
     @Override
     public void resize() {
         setX(Game.WIDTH / 2); // stay in middle on resize
-        setY(ResourceManager.BLACKHOLE_IMAGE.getHeight() / 2 + 20); // stay in same spot on resize
+        setY(IMAGE.getHeight() / 2 + 20); // stay in same spot on resize
     }
     
 }

@@ -1,6 +1,8 @@
 package game;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
@@ -13,6 +15,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
 
     File audioFile;
+    byte[] audioData;
 
     public Sound(File file) throws Exception {
         this.audioFile = file;
@@ -22,7 +25,12 @@ public class Sound {
         // play sound in a new thread so multiple sounds can be played at the same time
         new Thread(() -> {
             try {
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile); // read sound from file
+                if (audioData == null) {
+                    try (FileInputStream stream = new FileInputStream(audioFile)) {
+                        audioData = stream.readAllBytes();
+                    }
+                }
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new ByteArrayInputStream(audioData)); // read sound from file
                 Clip clip = AudioSystem.getClip();
                 clip.addLineListener((LineEvent e) -> {
                     if (e.getType() == LineEvent.Type.STOP) clip.close(); // close sound when it is finished. prevent memory leak

@@ -55,7 +55,7 @@ public class ShopEntity extends Entity {
 
         // draw name, cost, and level
         g.drawString(upgrade.getName(), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2 - bounds.getHeight()));
-        g.drawString("Cost:  " + NumberFormatter.format(upgrade.getCost()), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2));
+        g.drawString("Cost:  " +  ((upgrade.getCost() == -1) ? "MAXED" : NumberFormatter.format(upgrade.getCost())), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2));
         g.drawString("Level: " + upgrade.getCurrentLevel(), (int) (getX() + upgrade.getIcon().getWidth()), (int) (getY() + upgrade.getIcon().getHeight() / 2 + bounds.getHeight()));
         Font oldFont = g.getFont(); // save old font
         g.setFont(oldFont.deriveFont(50f)); // make buttons big with bigger font
@@ -65,7 +65,7 @@ public class ShopEntity extends Entity {
         int width = g.getFontMetrics().stringWidth("A");
 
         nextBounds = new Bound(xOffset, (int) (getY() + upgrade.getIcon().getHeight() / 2 - height / 2), width, height); // get bounds for the next button
-        g.drawString("→", nextBounds.x, nextBounds.y); // draw next button
+        g.drawString(">", nextBounds.x, nextBounds.y); // draw next button
 
         upgradeBounds = new Bound(xOffset, (int) (getY() + upgrade.getIcon().getHeight() / 2 + height / 2), width, height); // get bounds for the upgrade button
         boolean isMaxLevel = upgrade.getMaxLevel() == upgrade.getCurrentLevel();
@@ -75,7 +75,7 @@ public class ShopEntity extends Entity {
         else
             g.setColor(Color.GREEN);
 
-        g.drawString(!isMaxLevel ? "↑" : "X", upgradeBounds.x, upgradeBounds.y); // draw upgrade button
+        g.drawString(!isMaxLevel ? "^" : "X", upgradeBounds.x, upgradeBounds.y); // draw upgrade button
         g.setColor(Color.WHITE);
         g.setFont(oldFont); // set font back to default
         g.setComposite(oldComposite); // set composite back to default

@@ -2,20 +2,20 @@ package game.upgrade.upgrades;
 
 import game.upgrade.GeneratorUpgrade;
 
-public class CarUpgrade extends GeneratorUpgrade {
+public class HouseUpgrade extends GeneratorUpgrade {
 
-    public CarUpgrade(long level) {
+    public HouseUpgrade(long level) {
         super(level);
     }
 
     @Override
     public String getName() {
-        return "Car Upgrade";
+        return "House Upgrade";
     }
 
     @Override
     public long getBaseCost() {
-        return 2_000;
+        return 10_000;
     }
     
 }

@@ -57,7 +57,7 @@ public class Game extends JFrame implements Runnable {
             throw new RuntimeException("Could not load resource files", e);
         }
 
-        setIconImage(ResourceManager.BLACKHOLE_IMAGE.getScaledInstance(256, 256, Image.SCALE_SMOOTH)); // set icon of game
+        setIconImage(ResourceManager.RESOURCE_MAP.get("blackhole.png").getScaledInstance(256, 256, Image.SCALE_SMOOTH)); // set icon of game
 
         running = true;
 
@@ -77,6 +77,8 @@ public class Game extends JFrame implements Runnable {
         gameThread.start(); // start the game
         generatorThread = new Thread(new Generator());
         generatorThread.start(); // start the generators
+
+        setLocationRelativeTo(null);
     }
 
     public void render() {
@@ -156,6 +158,7 @@ public class Game extends JFrame implements Runnable {
         if (!running) return;
         try {
             running = false;
+            gameThread.interrupt();
             gameThread.join(); // stop game
             generatorThread.interrupt();
             generatorThread.join(); // stop generator

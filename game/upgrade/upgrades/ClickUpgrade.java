@@ -18,7 +18,7 @@ public class ClickUpgrade extends Upgrade {
 
     @Override
     public BufferedImage getIcon() {
-        return ResourceManager.BLACKHOLE_IMAGE;
+        return ResourceManager.RESOURCE_MAP.get("click_upgrade.png");
     }
 
     @Override

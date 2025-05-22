@@ -1,0 +1,5 @@
+House Upgrade
+log_house 1500
+apartment_house 2000
+mansion_house 2500
+skyscraper_house 3000

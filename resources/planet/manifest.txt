@@ -1,0 +1,6 @@
+Planet Upgrade
+moon_planet 4000
+mars_planet 5000
+earth_planet 6000
+jupiter_planet 7500
+sun_planet 10000

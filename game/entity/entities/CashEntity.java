@@ -25,12 +25,16 @@ public class CashEntity extends Entity {
     public void render(Graphics2D g) {
 
         FontMetrics metric = g.getFontMetrics();
-        String cashString = "+$" + NumberFormatter.format(cash); // format cash string
+        String plusOrNegative = cash < 0 ? "-" : "+";
+        String cashString = plusOrNegative + "$" + NumberFormatter.format(Math.abs(cash)); // format cash string
 
         int width = metric.stringWidth(cashString); // get width so it can be centered
 
         double alpha = (currentFade / fadeTime) * 255; // get alpha scaled from 0 to 255
         Color color = new Color(0, 255, 0, (int) alpha);
+        if (cash < 0) {
+            color = new Color(255, 0 , 0, (int) alpha);
+        }
         g.setColor(color); // set color of cash
         g.drawString(cashString, (int) getX() - width / 2, (int) getY()); // draw cash
     }
