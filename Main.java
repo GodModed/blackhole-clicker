@@ -14,7 +14,7 @@ public class Main {
         System.out.println("|         |~~\\     |           |");
         System.out.println("|~~\\\\  /  |   |\\  /|/~~||/~\\   |  /~/\\  /\\  /");
         System.out.println("|__/ \\/   |__/  \\/ |\\__||   |  |__\\/_ \\/  \\/");
-        System.out.println("_/         _/                        _/");
+        System.out.println("    _/         _/                        _/");
 
         System.out.println("In this game, you start out with no money. Your goal is to obtain as much money as you can.");
         System.out.println("To start, click on the black hole to gain a little bit of money. Then, buy upgrades.");
